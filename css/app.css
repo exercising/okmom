@@ -1,0 +1,115 @@
+html, body {
+  height: 100%;
+}
+body > main {
+  min-height: 100%;
+}
+body > main:after {
+  content: "";
+  display: block;
+}
+
+.bgcream1 {
+  background-color: #FAFAE8;
+}
+.bggraydark {
+  background-color:  #4B5052;
+}
+.bggraylight {
+  background-color: #70777A;
+}
+.bgsea1 {
+  background-color: #79C2B2;
+}
+.bgsea2 {
+  background-color: #48A18C;
+}
+.bgred1 {
+  background-color: #D690A0;
+}
+.bgred2 {
+  background-color: #A2606F;
+}
+.cream1 {
+  color: #FAFAE8;
+}
+.graydark {
+  color:  #4B5052;
+}
+.graylight {
+  color: #70777A;
+}
+.sea1 {
+  color: #79C2B2;
+}
+.sea2 {
+  color: #48A18C;
+}
+.red1 {
+  color: #D690A0;
+}
+.red2 {
+  color: #A2606F;
+}
+.nomargin {
+  margin: 0;
+}
+.nopadding {
+  padding: 0;
+}
+#header {
+  min-height: 90px;
+  margin-bottom: 5px;
+}
+#header .logo, #header .menu, #header .slogan {
+  height: 90px;
+}
+#header .menu a {
+  display: block;
+  float: left;
+  width: 50%;
+  margin: 0;
+  height: 45px;
+  padding: 4px 10px;
+}
+#header .menu a:hover {
+  background: #70777A;
+  background: -moz-linear-gradient(to right, rgba(121, 194, 178, 0.8) 0%, rgba(194, 174, 121, 0.8) 50%, rgba(241, 176, 191, 0.8) 100%);
+  background: -webkit-linear-gradient(left, rgba(121, 194, 178, 0.8) 0%, rgba(194, 174, 121, 0.8) 50%, rgba(241, 176, 191, 0.8) 100%);
+  background: -o-linear-gradient(left, rgba(121, 194, 178, 0.8) 0%, rgba(194, 174, 121, 0.8) 50%, rgba(241, 176, 191, 0.8) 100%);
+  background: linear-gradient(to right, rgba(121, 194, 178, 0.8) 0%, rgba(194, 174, 121, 0.8) 50%, rgba(241, 176, 191, 0.8) 100%);
+  color: #FAFAE8;
+  text-decoration: none;
+}
+@media (max-width: 768px) {
+  #header .logo, #header .menu, #header .slogan {
+    height: 50px;
+    padding: 0;
+    margin: 0;
+  }
+  #header .logo img {
+    height: 80px;
+  }
+  #header .menu a {
+    height: 25px;
+    text-align: center;
+  }
+}
+
+#accelerator {}
+
+#accelerator.cover {
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+#accelerator > .content {
+  margin-top: 20px;
+  background: rgba(146, 202, 191, 0.9);
+  min-height: 500px;
+  padding: 1em;
+}
+
+#footer {
+  padding: 1em;
+}
