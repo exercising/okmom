@@ -1,4 +1,4 @@
-angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize'])
+angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider'])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/login");
     $stateProvider
@@ -19,7 +19,7 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize'])
         templateUrl: "/partials/goals.html",
         controller: "goalsController",
         controllerAs: "goals"
-      })    
+      })
       .state('accelerators', {
         url: "/accelerators",
         templateUrl: "/partials/accelerators.html",
@@ -44,7 +44,7 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize'])
   .factory('User', function (FB) {
     var authData = FB.getAuth();
     return {
-      loggedin : false,
+      loggedin: false,
       data: authData
     };
   })
@@ -52,11 +52,33 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize'])
     var _self = this;
     _self.data = $firebaseArray(FB.child("accelerators"));
   })
-  .controller('goalsController', function (FB,User,$firebaseArray) {
+  .controller('goalsController', function (FB, User, $firebaseArray) {
     var goals = this;
     goals.list = $firebaseArray(FB.child("goals/" + User.data.uid));
-    
-    
+
+    goals.clearNew = function () {
+      goals.new = {
+        text: '',
+        progress: 10,
+        isPrivate: false
+      };
+    };
+    goals.clearNew();
+
+    goals.addNew = function () {
+      goals.list.$add(goals.new);
+      goals.clearNew();
+    };
+
+    goals.progress = 10;
+    goals.options = {
+      from: 0,
+      to: 100,
+      step: 10,
+      dimension: '%',
+      round: 0,
+      scale: []
+    };
   })
   .controller('homeController', function (FB, $firebaseArray) {
     var _self = this;
@@ -64,8 +86,8 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize'])
   })
   .controller('loginController', function (FB, $state, User) {
     var login = this;
-  
-    if (User.loggedin===true) {
+
+    if (User.loggedin === true) {
       $state.go('home');
     }
 
@@ -75,7 +97,7 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize'])
       FB.authWithPassword({
         email: login.user.email,
         password: login.user.password
-      }, function (error, authData) { 
+      }, function (error, authData) {
         if (error) {
           console.log("Error creating user:", error);
           return;
