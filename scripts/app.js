@@ -70,7 +70,17 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
       goals.clearNew();
     };
 
+    goals.delete = function (goal) {
+      goals.list.$remove(goal);
+    };
+  
+    goals.save = function (goal) {
+      goals.list.$save(goal);
+    };
+  
     goals.progress = 10;
+  
+    // https://www.npmjs.com/package/ng-slider
     goals.options = {
       from: 0,
       to: 100,
