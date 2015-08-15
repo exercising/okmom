@@ -1,6 +1,6 @@
 angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize'])
   .config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise("/");
+    $urlRouterProvider.otherwise("/login");
     $stateProvider
       .state('home', {
         url: "/",
@@ -14,6 +14,12 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize'])
         controller: "loginController",
         controllerAs: "login"
       })
+      .state('goals', {
+        url: "/goals",
+        templateUrl: "/partials/goals.html",
+        controller: "goalsController",
+        controllerAs: "goals"
+      })    
       .state('accelerators', {
         url: "/accelerators",
         templateUrl: "/partials/accelerators.html",
@@ -35,10 +41,22 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize'])
   .factory('FB', function () {
     return new Firebase("https://okmom.firebaseio.com");
   })
-  .factory('User', function () {
+  .factory('User', function (FB) {
+    var authData = FB.getAuth();
     return {
       loggedin : false,
+      data: authData
     };
+  })
+  .controller('homeController', function (FB, $firebaseArray) {
+    var _self = this;
+    _self.data = $firebaseArray(FB.child("accelerators"));
+  })
+  .controller('goalsController', function (FB,User,$firebaseArray) {
+    var goals = this;
+    goals.list = $firebaseArray(FB.child("goals/" + User.data.uid));
+    
+    
   })
   .controller('homeController', function (FB, $firebaseArray) {
     var _self = this;
@@ -46,6 +64,10 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize'])
   })
   .controller('loginController', function (FB, $state, User) {
     var login = this;
+  
+    if (User.loggedin===true) {
+      $state.go('home');
+    }
 
     login.user = {};
 
@@ -54,8 +76,13 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize'])
         email: login.user.email,
         password: login.user.password
       }, function (error, authData) { 
+        if (error) {
+          console.log("Error creating user:", error);
+          return;
+        }
         $state.go('home');
         User.loggedin = true;
+        User.data = authData;
       }, {
         remember: "sessionOnly"
       });
@@ -69,9 +96,11 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize'])
       }, function (error, userData) {
         if (error) {
           console.log("Error creating user:", error);
-        } else {
-          console.log("Successfully created user account with uid:", userData.uid);
+          return;
         }
+        $state.go('goals');
+        User.loggedin = true;
+        console.log("Successfully created user account with uid:", userData.uid);
       });
     };
 
