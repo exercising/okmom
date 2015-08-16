@@ -6,7 +6,7 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
         url: "/",
         templateUrl: "/partials/home.html",
         controller: "homeController",
-        controllerAs: ""
+        controllerAs: "home"
       })
       .state('login', {
         url: "/login",
@@ -19,23 +19,6 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
         templateUrl: "/partials/goals.html",
         controller: "goalsController",
         controllerAs: "goals"
-      })
-      .state('accelerators', {
-        url: "/accelerators",
-        templateUrl: "/partials/accelerators.html",
-        controller: "accelController",
-        controllerAs: "accelerators"
-      })
-      .state('accelerator', {
-        url: "/accelerator/:slug",
-        templateUrl: '/partials/accelerator.details.html',
-        controller: function ($stateParams, FB, $firebaseObject) {
-          var _self = this;
-          _self.data = {};
-          FB.child("accelerators").orderByChild("slug")
-          _self.data = $firebaseObject(FB.child("accelerators/" + $stateParams.slug));
-        },
-        controllerAs: "accelerator"
       });
   })
   .factory('FB', function () {
@@ -49,8 +32,7 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
     };
   })
   .controller('homeController', function (FB, $firebaseArray) {
-    var _self = this;
-    _self.data = $firebaseArray(FB.child("accelerators"));
+    var home = this;
   })
   .controller('goalsController', function (FB, User, $firebaseArray) {
     var goals = this;
@@ -89,10 +71,6 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
       round: 0,
       scale: []
     };
-  })
-  .controller('homeController', function (FB, $firebaseArray) {
-    var _self = this;
-    _self.data = $firebaseArray(FB.child("accelerators"));
   })
   .controller('loginController', function (FB, $state, User) {
     var login = this;
@@ -136,10 +114,6 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
       });
     };
 
-  })
-  .controller('accelController', function (FB, $firebaseArray) {
-    var _self = this;
-    _self.data = $firebaseArray(FB.child("accelerators"));
   })
   .filter('firstParagraph', function () {
     return function (input) {

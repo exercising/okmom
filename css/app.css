@@ -3,6 +3,7 @@ html, body {
 }
 body > main {
   min-height: 100%;
+  padding-bottom: 60px;
 }
 body > main:after {
   content: "";
@@ -57,59 +58,9 @@ body > main:after {
 .nopadding {
   padding: 0;
 }
-#header {
-  min-height: 90px;
-  margin-bottom: 5px;
-}
-#header .logo, #header .menu, #header .slogan {
-  height: 90px;
-}
-#header .menu a {
-  display: block;
-  float: left;
-  width: 50%;
-  margin: 0;
-  height: 45px;
-  padding: 4px 10px;
-}
-#header .menu a:hover {
-  background: #70777A;
-  background: -moz-linear-gradient(to right, rgba(121, 194, 178, 0.8) 0%, rgba(194, 174, 121, 0.8) 50%, rgba(241, 176, 191, 0.8) 100%);
-  background: -webkit-linear-gradient(left, rgba(121, 194, 178, 0.8) 0%, rgba(194, 174, 121, 0.8) 50%, rgba(241, 176, 191, 0.8) 100%);
-  background: -o-linear-gradient(left, rgba(121, 194, 178, 0.8) 0%, rgba(194, 174, 121, 0.8) 50%, rgba(241, 176, 191, 0.8) 100%);
-  background: linear-gradient(to right, rgba(121, 194, 178, 0.8) 0%, rgba(194, 174, 121, 0.8) 50%, rgba(241, 176, 191, 0.8) 100%);
-  color: #FAFAE8;
-  text-decoration: none;
-}
-@media (max-width: 768px) {
-  #header .logo, #header .menu, #header .slogan {
-    height: 50px;
-    padding: 0;
-    margin: 0;
-  }
-  #header .logo img {
-    height: 80px;
-  }
-  #header .menu a {
-    height: 25px;
-    text-align: center;
-  }
-}
-
-#accelerator {}
-
-#accelerator.cover {
-  background-size: 100%;
-  background-repeat: no-repeat;
-}
-
-#accelerator > .content {
-  margin-top: 20px;
-  background: rgba(146, 202, 191, 0.9);
-  min-height: 500px;
-  padding: 1em;
-}
 
 #footer {
   padding: 1em;
+  height: 60px;
+  margin-top: -60px;
 }
