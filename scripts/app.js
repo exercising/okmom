@@ -113,6 +113,11 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
       profile.data = $firebaseObject(FB.child('profiles/' + User.data.uid));
       profile.own = true;
     } else {
+      try {
+        window.atob($stateParams.user);
+      } catch (e) {
+        $state.go('home');
+      }
       profile.data = $firebaseObject(FB.child('profiles/' + atob($stateParams.user)));
     }
 
@@ -124,7 +129,6 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
         $state.go("home");
       }
     });
-
   })
   .controller('editProfileController', function (FB, $state, User, $firebaseObject) {
     var profile = this;
