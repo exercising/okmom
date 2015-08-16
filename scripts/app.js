@@ -147,6 +147,7 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
         }
         $state.go('goals');
         User.loggedin = true;
+        User.data = authData;
         console.log("Successfully created user account with uid:", userData.uid);
       });
     };
