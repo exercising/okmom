@@ -1,3 +1,23 @@
-<div class="row">
-
+<div class="page-header">
+  <h1>OkMom!</h1>
+</div>
+<div class="container">
+  <form class="form well">
+    <div class="control-group">
+      <input ng-model="home.post.text" type="text" placeholder="How are you feeling today?" class="form-control">
+    </div>
+    <div class="control-group">
+      <button class="btn btn-primary" ng-click="home.new()">Submit</button>
+    </div>
+  </form>
+</div>
+<div class="container">
+  <ul>
+    <li ng-repeat="post in home.posts">
+      <p ng-bind="post.text"></p>
+      <p class="author">
+        <a ng-href="/#/profile/{{post.user | base64}}" ng-bind="post.name"></a>
+      </p>
+    </li>
+  </ul>
 </div>

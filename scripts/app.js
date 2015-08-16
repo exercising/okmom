@@ -59,8 +59,24 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
       data: authData ? authData : {},
     };
   })
-  .controller('homeController', function (FB, $firebaseArray) {
+  .controller('homeController', function (FB, $firebaseArray, User, $firebaseObject) {
     var home = this;
+    home.post = {};
+
+    home.profile = $firebaseObject(FB.child('profiles/' + User.data.uid));
+  
+    home.posts = $firebaseArray(FB.child("posts/"));
+  
+    home.new = function () {
+      var post;
+      post = {
+        user: User.data.uid,
+        name: home.profile.name,
+        text : home.post.text
+      };
+      home.posts.$add(post);
+      home.post = {};
+    };
   })
   .controller('goalsController', function (FB, User, $state, $firebaseArray) {
     var goals = this;
@@ -108,9 +124,12 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
     if (User.loggedin !== true && !$stateParams.user) {
       $state.go('login');
     }
+    
 
     if (!$stateParams.user) {
       profile.data = $firebaseObject(FB.child('profiles/' + User.data.uid));
+      profile.goals = $firebaseObject(FB.child('goals/' + User.data.uid));
+      profile.posts = $firebaseObject(FB.child('posts/').orderByChild('user').equalTo(User.data.uid));
       profile.own = true;
     } else {
       try {
@@ -119,6 +138,8 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
         $state.go('home');
       }
       profile.data = $firebaseObject(FB.child('profiles/' + atob($stateParams.user)));
+      profile.goals = $firebaseObject(FB.child('goals/' + atob($stateParams.user)));
+      profile.posts = $firebaseObject(FB.child('posts/').orderByChild('user').equalTo(atob($stateParams.user)));
     }
 
     profile.data.$loaded().then(function (data) {
@@ -199,4 +220,9 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
       text = text !== undefined ? String(text).trim() : "";
       return (text.length > 0 ? '<p>' + text.replace(/[\r\n]+/g, '</p><p>') + '</p>' : "");
     };
-  });
+  })
+.filter('base64', function() {
+  return function(input) {
+    return btoa(input);
+  };
+});

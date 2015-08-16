@@ -1,21 +1,37 @@
 <div id="profile" class="container-fluid">
-  <div class="header">
+  <div class="header clearfix">
     <div class="col-xs-4 picture">
       <a href="" class="thumbnail" ng-style="{'background-image': 'url(' +profile.data.picture+ ')'}">
       </a>
     </div>
     <div class="col-xs-8">
       <h2 ng-bind="profile.data.name"></h2>
-      <p><strong ng-bind="profile.data.tagline"></strong></p>
-    </div>  
+      <p><strong ng-bind="profile.data.tagline"></strong>
+      </p>
+    </div>
   </div>
   <div class="row" ng-if="profile.own">
-    <a ui-sref="edit-profile" class="btn btn-info" >Edit Profile</a>
+    <a ui-sref="edit-profile" class="btn btn-info">Edit Profile</a>
   </div>
   <div class="container clearfix">
-    goals
+    <ul>
+      <li ng-repeat="goal in profile.goals">
+        <p ng-bind="goal.text"></p>
+        <div class="control-group progress">
+          <div class="progress-bar" role="progressbar" style="width: {{goal.progress}}%; min-width: 2em;">
+            {{goal.progress}}%
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
   <div class="container">
-    posts
+    <ul>
+      <li ng-repeat="post in profile.posts">
+        <p ng-bind="post.text"></p>
+        <p class="author"><a ng-href="/#/profile/{{post.user | base64}}" ng-bind="post.name"></a></p>
+        <button class="btn btn-danger" ng-click="remove(post)">Remove</button>
+      </li>
+    </ul>
   </div>
 </div>
