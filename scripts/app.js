@@ -111,7 +111,7 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
     if (!$stateParams.user) {
       profile.data = $firebaseObject(FB.child('profiles/' + User.data.uid));
     } else {
-      profile.data = $firebaseObject(FB.child('profiles/' + $stateParams.user));
+      profile.data = $firebaseObject(FB.child('profiles/' + atob($stateParams.user)));
       profile.data.$loaded().then(function (data) {
         if (!data.name) {
           $state.go("home");
