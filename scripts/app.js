@@ -20,6 +20,12 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
         controller: "profileController",
         controllerAs: "profile"
       })
+      .state('user-profile', {
+        url: "/profile/:user",
+        templateUrl: "/partials/profile.html",
+        controller: "profileController",
+        controllerAs: "profile"
+      })    
       .state('edit-profile', {
         url: "/profile/edit",
         templateUrl: "/partials/profile-edit.html",
@@ -31,6 +37,16 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
         templateUrl: "/partials/goals.html",
         controller: "goalsController",
         controllerAs: "goals"
+      })
+      .state('logout', {
+        url : "/logout",
+        controller: function (User, FB, $state) {
+          User.data = {};
+          FB.unauth();
+          $state.go("login");
+        },
+        controllerAs: "logout",
+        template: ""
       });
   })
   .factory('FB', function () {
@@ -87,12 +103,21 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
       scale: []
     };
   })
-  .controller('profileController', function (FB, $state, User, $firebaseObject) {
+  .controller('profileController', function (FB, $state, User, $firebaseObject, $stateParams) {
     var profile = this;
     if (User.loggedin !== true) {
       $state.go('login');
     }
-    profile.data = $firebaseObject(FB.child('profiles/' + User.data.uid));
+    if (!$stateParams.user) {
+      profile.data = $firebaseObject(FB.child('profiles/' + User.data.uid));
+    } else {
+      profile.data = $firebaseObject(FB.child('profiles/' + $stateParams.user));
+      profile.data.$loaded().then(function (data) {
+        if (!data.name) {
+          $state.go("home");
+        }
+      });
+    }
   })
   .controller('editProfileController', function (FB, $state, User, $firebaseObject) {
     var profile = this;

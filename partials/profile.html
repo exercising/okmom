@@ -9,8 +9,8 @@
       <p><strong ng-bind="profile.data.tagline"></strong></p>
     </div>  
   </div>
-  <div class="row">
-    <a ui-sref="edit-profile" class="btn btn-info">Edit Profile</a>
+  <div class="row" ng-if="profile.own">
+    <a ui-sref="edit-profile" class="btn btn-info" >Edit Profile</a>
   </div>
   <div class="container">
     goals
