@@ -64,15 +64,15 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
     home.post = {};
 
     home.profile = $firebaseObject(FB.child('profiles/' + User.data.uid));
-  
+
     home.posts = $firebaseArray(FB.child("posts/"));
-  
+
     home.new = function () {
       var post;
       post = {
         user: User.data.uid,
         name: home.profile.name,
-        text : home.post.text
+        text: home.post.text
       };
       home.posts.$add(post);
       home.post = {};
@@ -119,17 +119,17 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
       scale: []
     };
   })
-  .controller('profileController', function (FB, $state, User, $firebaseObject, $stateParams) {
+  .controller('profileController', function (FB, $state, User, $firebaseObject, $firebaseArray, $stateParams) {
     var profile = this;
     if (User.loggedin !== true && !$stateParams.user) {
       $state.go('login');
     }
-    
+
 
     if (!$stateParams.user) {
       profile.data = $firebaseObject(FB.child('profiles/' + User.data.uid));
       profile.goals = $firebaseObject(FB.child('goals/' + User.data.uid));
-      profile.posts = $firebaseObject(FB.child('posts/').orderByChild('user').equalTo(User.data.uid));
+      profile.posts = $firebaseArray(FB.child('posts/').orderByChild('user').equalTo(User.data.uid));
       profile.own = true;
     } else {
       try {
@@ -139,7 +139,7 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
       }
       profile.data = $firebaseObject(FB.child('profiles/' + atob($stateParams.user)));
       profile.goals = $firebaseObject(FB.child('goals/' + atob($stateParams.user)));
-      profile.posts = $firebaseObject(FB.child('posts/').orderByChild('user').equalTo(atob($stateParams.user)));
+      profile.posts = $firebaseArray(FB.child('posts/').orderByChild('user').equalTo(atob($stateParams.user)));
     }
 
     profile.data.$loaded().then(function (data) {
@@ -150,6 +150,10 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
         $state.go("home");
       }
     });
+
+    profile.removePost = function (post) {
+      profile.posts.$remove(post);
+    };
   })
   .controller('editProfileController', function (FB, $state, User, $firebaseObject) {
     var profile = this;
@@ -221,8 +225,8 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
       return (text.length > 0 ? '<p>' + text.replace(/[\r\n]+/g, '</p><p>') + '</p>' : "");
     };
   })
-.filter('base64', function() {
-  return function(input) {
-    return btoa(input);
-  };
-});
+  .filter('base64', function () {
+    return function (input) {
+      return btoa(input);
+    };
+  });

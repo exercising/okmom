@@ -30,7 +30,7 @@
       <li ng-repeat="post in profile.posts">
         <p ng-bind="post.text"></p>
         <p class="author"><a ng-href="/#/profile/{{post.user | base64}}" ng-bind="post.name"></a></p>
-        <button class="btn btn-danger" ng-click="remove(post)">Remove</button>
+        <button ng-if="profile.own" class="btn btn-danger" ng-click="profile.removePost(post)">Remove</button>
       </li>
     </ul>
   </div>
