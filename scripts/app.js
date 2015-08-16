@@ -25,7 +25,7 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
         templateUrl: "/partials/profile.html",
         controller: "profileController",
         controllerAs: "profile"
-      })    
+      })
       .state('edit-profile', {
         url: "/profile/edit",
         templateUrl: "/partials/profile-edit.html",
@@ -39,7 +39,7 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
         controllerAs: "goals"
       })
       .state('logout', {
-        url : "/logout",
+        url: "/logout",
         controller: function (User, FB, $state) {
           User.data = {};
           FB.unauth();
@@ -105,10 +105,10 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
   })
   .controller('profileController', function (FB, $state, User, $firebaseObject, $stateParams) {
     var profile = this;
-    if (User.loggedin !== true) {
-      $state.go('login');
-    }
     if (!$stateParams.user) {
+      if (User.loggedin !== true) {
+        $state.go('login');
+      }
       profile.data = $firebaseObject(FB.child('profiles/' + User.data.uid));
     } else {
       profile.data = $firebaseObject(FB.child('profiles/' + atob($stateParams.user)));
