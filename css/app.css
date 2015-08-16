@@ -1,10 +1,13 @@
-html, body {
+html,
+body {
   height: 100%;
 }
+
 body > main {
   min-height: 100%;
   padding-bottom: 60px;
 }
+
 body > main:after {
   content: "";
   display: block;
@@ -13,48 +16,63 @@ body > main:after {
 .bgcream1 {
   background-color: #FAFAE8;
 }
+
 .bggraydark {
-  background-color:  #4B5052;
+  background-color: #4B5052;
 }
+
 .bggraylight {
   background-color: #70777A;
 }
+
 .bgsea1 {
   background-color: #79C2B2;
 }
+
 .bgsea2 {
   background-color: #48A18C;
 }
+
 .bgred1 {
   background-color: #D690A0;
 }
+
 .bgred2 {
   background-color: #A2606F;
 }
+
 .cream1 {
   color: #FAFAE8;
 }
+
 .graydark {
-  color:  #4B5052;
+  color: #4B5052;
 }
+
 .graylight {
   color: #70777A;
 }
+
 .sea1 {
   color: #79C2B2;
 }
+
 .sea2 {
   color: #48A18C;
 }
+
 .red1 {
   color: #D690A0;
 }
+
 .red2 {
   color: #A2606F;
 }
+
 .nomargin {
   margin: 0;
 }
+
 .nopadding {
   padding: 0;
 }
@@ -63,4 +81,12 @@ body > main:after {
   padding: 1em;
   height: 60px;
   margin-top: -60px;
+}
+
+#profile .picture a {
+  height: 200px;
+  width: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }

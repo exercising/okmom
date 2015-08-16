@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>OKMOM</title>
+    <title>OkMOM</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/scripts/ng-slider/css/ng-slider.min.css">
     <link rel="stylesheet" href="/css/app.css">
@@ -18,7 +18,19 @@
   <body ng-app="unicornguide" class='bgcream1'>
     <main ui-view></main>
     <footer id="footer" class="bggraydark">
-      <p class="cream1 text-center"><strong>&copy; 2015 | @okmom </strong></p>
+      <nav>
+        <ul class="nav nav-tabs">
+          <li>
+            <a ui-sref="goals">Goals</a>
+          </li>
+          <li>
+            <a ui-sref="profile">Profile</a>
+          </li>          
+          <li>
+            <a ui-sref="home">Timeline</a>
+          </li>          
+        </ul>
+      </nav>
     </footer>
   </body>
 </html>

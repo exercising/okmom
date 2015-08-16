@@ -14,6 +14,18 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
         controller: "loginController",
         controllerAs: "login"
       })
+      .state('profile', {
+        url: "/profile",
+        templateUrl: "/partials/profile.html",
+        controller: "profileController",
+        controllerAs: "profile"
+      })
+      .state('edit-profile', {
+        url: "/profile/edit",
+        templateUrl: "/partials/profile-edit.html",
+        controller: "editProfileController",
+        controllerAs: "profile"
+      })
       .state('goals', {
         url: "/goals",
         templateUrl: "/partials/goals.html",
@@ -27,7 +39,7 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
   .factory('User', function (FB) {
     var authData = FB.getAuth();
     return {
-      loggedin: false,
+      loggedin: authData ? true : false,
       data: authData
     };
   })
@@ -55,13 +67,13 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
     goals.delete = function (goal) {
       goals.list.$remove(goal);
     };
-  
+
     goals.save = function (goal) {
       goals.list.$save(goal);
     };
-  
+
     goals.progress = 10;
-  
+
     // https://www.npmjs.com/package/ng-slider
     goals.options = {
       from: 0,
@@ -70,6 +82,28 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
       dimension: '%',
       round: 0,
       scale: []
+    };
+  })
+  .controller('profileController', function (FB, $state, User, $firebaseObject) {
+    var profile = this;
+    if (User.loggedin !== true) {
+      $state.go('login');
+    }
+    profile.data = $firebaseObject(FB.child('profiles/' + User.data.uid));
+  })
+  .controller('editProfileController', function (FB, $state, User, $firebaseObject) {
+    var profile = this;
+    if (User.loggedin !== true) {
+      $state.go('login');
+    }
+    profile.data = $firebaseObject(FB.child('profiles/' + User.data.uid));
+
+    profile.save = function () {
+      profile.data.$save().then(function (ref) {
+        $state.go('profile');
+      }, function (error) {
+        console.log("Error:", error);
+      });
     };
   })
   .controller('loginController', function (FB, $state, User) {
