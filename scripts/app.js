@@ -20,16 +20,16 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
         controller: "profileController",
         controllerAs: "profile"
       })
-      .state('user-profile', {
-        url: "/profile/:user",
-        templateUrl: "/partials/profile.html",
-        controller: "profileController",
-        controllerAs: "profile"
-      })
       .state('edit-profile', {
         url: "/profile/edit",
         templateUrl: "/partials/profile-edit.html",
         controller: "editProfileController",
+        controllerAs: "profile"
+      })    
+      .state('user-profile', {
+        url: "/profile/:user",
+        templateUrl: "/partials/profile.html",
+        controller: "profileController",
         controllerAs: "profile"
       })
       .state('goals', {
@@ -129,7 +129,6 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
     if (User.loggedin !== true && !$stateParams.user) {
       $state.go('login');
     }
-
 
     if (!$stateParams.user) {
       profile.data = $firebaseObject(FB.child('profiles/' + User.data.uid));
