@@ -105,19 +105,26 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
   })
   .controller('profileController', function (FB, $state, User, $firebaseObject, $stateParams) {
     var profile = this;
+    if (User.loggedin !== true && !$stateParams.user) {
+      $state.go('login');
+    }
+
     if (!$stateParams.user) {
-      if (User.loggedin !== true) {
-        $state.go('login');
-      }
       profile.data = $firebaseObject(FB.child('profiles/' + User.data.uid));
+      profile.own = true;
     } else {
       profile.data = $firebaseObject(FB.child('profiles/' + atob($stateParams.user)));
-      profile.data.$loaded().then(function (data) {
-        if (!data.name) {
-          $state.go("home");
-        }
-      });
     }
+
+    profile.data.$loaded().then(function (data) {
+      if (!data.name && profile.own) {
+        $state.go("edit-profile");
+      }
+      if (!data.name) {
+        $state.go("home");
+      }
+    });
+
   })
   .controller('editProfileController', function (FB, $state, User, $firebaseObject) {
     var profile = this;
