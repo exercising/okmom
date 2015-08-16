@@ -1,7 +1,7 @@
 <div class="page-header">
   <h1>OkMom!</h1>
 </div>
-<div class="container">
+<div class="container" ng-if="home.user.uid">
   <form class="form well">
     <div class="control-group">
       <input ng-model="home.post.text" type="text" placeholder="How are you feeling today?" class="form-control">
