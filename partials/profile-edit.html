@@ -1,0 +1,23 @@
+<div class="page-header">
+  <h1>Edit Profile</h1>
+</div>
+<div class="container">
+  <form class="form">
+    <div class="control-group">
+      <label for="">Name</label>
+      <input ng-model="profile.data.name" class="form-control">
+    </div>
+    <div class="control-group">
+      <label for="">TagLine</label>
+      <input ng-model="profile.data.tagline" class="form-control">
+    </div>
+    <div class="control-group">
+      <label for="">Profile Picture</label>
+      <input ng-model="profile.data.picture" class="form-control">
+    </div>
+    <div class="control-group">
+      <button class="btn btn-primary" ng-click="profile.save()">Save</button>
+      <a ui-sref="profile" class="btn btn-info">Back</a>
+    </div>
+  </form>
+</div>
