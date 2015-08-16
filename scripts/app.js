@@ -40,14 +40,17 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
     var authData = FB.getAuth();
     return {
       loggedin: authData ? true : false,
-      data: authData
+      data: authData ? authData : {},
     };
   })
   .controller('homeController', function (FB, $firebaseArray) {
     var home = this;
   })
-  .controller('goalsController', function (FB, User, $firebaseArray) {
+  .controller('goalsController', function (FB, User, $state, $firebaseArray) {
     var goals = this;
+    if (User.loggedin !== true) {
+      $state.go('login');
+    }
     goals.list = $firebaseArray(FB.child("goals/" + User.data.uid));
 
     goals.clearNew = function () {
