@@ -60,7 +60,7 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
       data: authData ? authData : {},
     };
   })
-  .controller('homeController', function (FB, $firebaseArray, User, $firebaseObject) {
+  .controller('homeController', function (FB, $firebaseArray, $state, User, $firebaseObject) {
     var home = this;
     home.post = {};
     home.user = User.data;
@@ -70,10 +70,13 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
     home.posts = $firebaseArray(FB.child("posts/"));
 
     home.new = function () {
+      if (!User.data.uid) {
+        $state.go('login');
+      }
       var post;
       post = {
         user: User.data.uid,
-        name: home.profile.name,
+        name: home.profile.name || "",
         text: home.post.text
       };
       home.posts.$add(post);
