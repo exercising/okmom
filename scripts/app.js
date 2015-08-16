@@ -43,6 +43,7 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
         controller: function (User, FB, $state) {
           User.data = {};
           FB.unauth();
+          User.loggedin = false;
           $state.go("login");
         },
         controllerAs: "logout",
