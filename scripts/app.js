@@ -62,6 +62,7 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
   .controller('homeController', function (FB, $firebaseArray, User, $firebaseObject) {
     var home = this;
     home.post = {};
+    home.user = User.data;
 
     home.profile = $firebaseObject(FB.child('profiles/' + User.data.uid));
 
@@ -206,10 +207,10 @@ angular.module('unicornguide', ['firebase', 'ui.router', 'ngSanitize', 'ngSlider
           console.log("Error creating user:", error);
           return;
         }
-        $state.go('goals');
         User.loggedin = true;
         User.data = authData;
-        console.log("Successfully created user account with uid:", userData.uid);
+        console.log("Successfully created user account with uid:", userData.uid);        
+        $state.go('goals');
       });
     };
 
